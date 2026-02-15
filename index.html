@@ -14,7 +14,1475 @@
   --sier: #7c3aed;
   --sier-light: #ede9fe;
   --sier-bg: linear-gradient(135deg, #5b21b6, #7c3aed);
+  --web: #059669;<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT就活ナビ - SIer & Web系 高年収企業ガイド</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1e3a8a;
+  --primary-light: #e8effc;
+  --sier: #7c3aed;
+  --sier-light: #ede9fe;
+  --sier-bg: linear-gradient(135deg, #5b21b6, #7c3aed);
   --web: #059669;
+  --web-light: #d1fae5;
+  --web-bg: linear-gradient(135deg, #047857, #10b981);
+  --accent: #f59e0b;
+  --bg: #f3f4f6;
+  --card-bg: #ffffff;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+}
+
+body {
+  font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+header h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
+header p { font-size: 0.9rem; opacity: 0.8; }
+
+.tabs {
+  max-width: 1200px;
+  margin: 1.5rem auto 0;
+  padding: 0 1rem;
+  display: flex;
+  gap: 0;
+}
+.tab {
+  flex: 1;
+  padding: 0.9rem 1rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  border-bottom: none;
+  background: white;
+  color: var(--text-light);
+  transition: all 0.2s;
+  border-radius: 10px 10px 0 0;
+  position: relative;
+}
+.tab:first-child { margin-right: -1px; }
+.tab.active-all { background: var(--primary); color: white; border-color: var(--primary); }
+.tab.active-sier { background: var(--sier); color: white; border-color: var(--sier); }
+.tab.active-web { background: var(--web); color: white; border-color: var(--web); }
+.tab:hover:not([class*="active"]) { background: #f9fafb; color: var(--text); }
+.tab .tab-count {
+  display: inline-block;
+  background: rgba(255,255,255,0.25);
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
+}
+
+.controls {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: white;
+  border: 2px solid var(--border);
+  border-top: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.controls input[type="text"] {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.55rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+.controls input[type="text"]:focus { outline: none; border-color: var(--primary); }
+.controls select {
+  padding: 0.55rem 0.8rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: white;
+  cursor: pointer;
+}
+
+.stats {
+  max-width: 1200px;
+  margin: 1rem auto 0.5rem;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+.stats .count { font-weight: 700; color: var(--primary); }
+
+.list-view {
+  max-width: 1200px;
+  margin: 0.5rem auto 2rem;
+  padding: 0 1rem;
+}
+
+.company-row {
+  display: grid;
+  grid-template-columns: 2.2fr 0.8fr 1.2fr 1.2fr 0.3fr;
+  align-items: center;
+  padding: 0.85rem 1.2rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  gap: 0.5rem;
+}
+.company-row:first-child { border-radius: 10px 10px 0 0; }
+.company-row:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 10px 10px; }
+.company-row:only-child { border-radius: 10px; border-bottom: 1px solid var(--border); }
+.company-row:hover { background: #f0f4ff; transform: translateX(4px); }
+
+.company-row .name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.company-row .type-badge {
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+.type-badge.sier { background: var(--sier-light); color: var(--sier); }
+.type-badge.web { background: var(--web-light); color: var(--web); }
+
+.company-row .salary-cell {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+.company-row .detail-cell {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+.company-row .deadline-cell {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.deadline-cell .deadline-soon { color: var(--danger); }
+.deadline-cell .deadline-open { color: var(--web); }
+.deadline-cell .deadline-tbd { color: var(--text-light); }
+
+.company-row .arrow-cell {
+  text-align: right;
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.list-header {
+  display: grid;
+  grid-template-columns: 2.2fr 0.8fr 1.2fr 1.2fr 0.3fr;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-light);
+  font-size: 1rem;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  animation: modalIn 0.25s ease-out;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  padding: 1.5rem 2rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.modal-header.sier { background: var(--sier-bg); }
+.modal-header.web { background: var(--web-bg); }
+.modal-header h2 { font-size: 1.4rem; line-height: 1.3; }
+.modal-header .close-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: 1rem;
+  transition: background 0.2s;
+}
+.modal-header .close-btn:hover { background: rgba(255,255,255,0.35); }
+
+.modal-meta {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+.modal-meta .meta-tag {
+  background: rgba(255,255,255,0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.modal-body { padding: 1.5rem 2rem 2rem; }
+
+.detail-section { margin-bottom: 1.5rem; }
+.detail-section:last-child { margin-bottom: 0; }
+.detail-section h3 {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 1.5rem;
+}
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.detail-item .label { color: var(--text-light); }
+.detail-item .value { font-weight: 600; text-align: right; }
+
+.salary-highlight {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+.salary-highlight .amount { font-size: 2rem; font-weight: 800; color: #b45309; }
+.salary-highlight .sub { font-size: 0.8rem; color: #92400e; margin-top: 0.2rem; }
+
+.es-deadline-box {
+  background: var(--danger-light);
+  border: 2px solid var(--danger);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.es-deadline-box .es-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--danger);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+.es-deadline-box .es-date {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--danger);
+}
+.es-deadline-box .es-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 0.3rem;
+}
+
+.es-open-box {
+  background: var(--web-light);
+  border: 2px solid var(--web);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.es-open-box .es-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--web);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+.es-open-box .es-date {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--web);
+}
+.es-open-box .es-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 0.3rem;
+}
+
+.benefits-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.benefit-tag {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.detail-description {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.7;
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+}
+
+.selection-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.flow-step {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.flow-arrow {
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-light);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--border);
+  background: white;
+}
+footer p { margin-bottom: 0.2rem; }
+
+@media (max-width: 768px) {
+  body { font-size: 15px; }
+  header { padding: 1.4rem 1rem; }
+  header h1 { font-size: 1.2rem; }
+  header p { font-size: 0.75rem; line-height: 1.5; }
+
+  /* Tabs - full width, larger touch targets */
+  .tabs { margin: 0 auto 0; padding: 0; gap: 0; }
+  .tab {
+    font-size: 0.85rem;
+    padding: 0.85rem 0.3rem;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid transparent;
+  }
+  .tab:first-child { margin-right: 0; }
+  .tab.active-all { border-radius: 0; border: none; border-bottom: 3px solid var(--primary); }
+  .tab.active-sier { border-radius: 0; border: none; border-bottom: 3px solid var(--sier); }
+  .tab.active-web { border-radius: 0; border: none; border-bottom: 3px solid var(--web); }
+
+  /* Controls */
+  .controls {
+    flex-direction: column;
+    padding: 0.75rem;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    gap: 0.5rem;
+  }
+  .controls input[type="text"] {
+    width: 100%;
+    min-width: 0;
+    padding: 0.7rem 1rem;
+    font-size: 16px; /* prevent iOS zoom */
+    border-radius: 10px;
+  }
+  .controls select {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  /* Stats */
+  .stats {
+    flex-direction: column;
+    padding: 0.6rem 0.75rem;
+    gap: 0.2rem;
+    font-size: 0.72rem;
+    margin: 0.5rem auto 0.3rem;
+  }
+
+  /* Hide list header on mobile */
+  .list-header { display: none; }
+
+  /* Card-style company rows */
+  .list-view { padding: 0 0.5rem; margin-bottom: 1.5rem; }
+  .company-row {
+    display: flex;
+    flex-direction: column;
+    padding: 0.9rem 1rem;
+    gap: 0.45rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative;
+  }
+  .company-row:first-child { border-radius: 12px; }
+  .company-row:last-child { border-bottom: 1px solid var(--border); border-radius: 12px; }
+  .company-row:only-child { border-radius: 12px; }
+  .company-row:hover { transform: none; }
+  .company-row:active { background: #f0f4ff; }
+
+  .company-row .name-cell {
+    font-size: 0.95rem;
+    gap: 0.5rem;
+    padding-right: 1.5rem;
+  }
+  .company-row .type-badge {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.45rem;
+  }
+  .company-row .salary-cell {
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+  .company-row .deadline-cell {
+    font-size: 0.78rem;
+  }
+  .company-row .detail-cell {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-light);
+  }
+  .company-row .arrow-cell {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: #ccc;
+  }
+
+  /* Modal - full screen on mobile */
+  .modal-overlay { padding: 0; align-items: stretch; }
+  .modal {
+    max-width: 100%;
+    border-radius: 0;
+    min-height: 100vh;
+    box-shadow: none;
+  }
+  .modal-header {
+    padding: 1.2rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .modal-header h2 { font-size: 1.15rem; }
+  .modal-header .close-btn {
+    width: 32px; height: 32px;
+    font-size: 1.1rem;
+  }
+  .modal-meta .meta-tag { font-size: 0.7rem; padding: 0.15rem 0.5rem; }
+
+  .modal-body { padding: 1rem; }
+
+  .salary-highlight { padding: 0.8rem 1rem; margin-bottom: 1rem; }
+  .salary-highlight .amount { font-size: 1.6rem; }
+  .salary-highlight .sub { font-size: 0.75rem; }
+
+  .es-deadline-box, .es-open-box {
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .es-deadline-box .es-date, .es-open-box .es-date { font-size: 1.1rem; }
+
+  .detail-section { margin-bottom: 1.2rem; }
+  .detail-section h3 { font-size: 0.8rem; }
+
+  .detail-description {
+    font-size: 0.85rem;
+    padding: 0.8rem;
+    line-height: 1.8;
+  }
+
+  .detail-grid { grid-template-columns: 1fr; gap: 0; }
+  .detail-item { font-size: 0.85rem; padding: 0.4rem 0; }
+
+  .benefit-tag { font-size: 0.75rem; padding: 0.2rem 0.55rem; }
+  .flow-step { font-size: 0.72rem; padding: 0.25rem 0.55rem; }
+  .flow-arrow { font-size: 0.7rem; }
+  .selection-flow { gap: 0.2rem; }
+
+  .no-results { padding: 2rem 1rem; font-size: 0.9rem; }
+
+  footer {
+    padding: 1.5rem 1rem;
+    font-size: 0.7rem;
+  }
+  footer p { line-height: 1.6; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IT就活ナビ - 高年収企業ガイド</h1>
+  <p>四季報掲載 IT企業 / 平均年収700万円以上 / SIer & Web系 / 2027卒向け採用情報付き</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active-all" data-filter="all" id="tabAll">すべて<span class="tab-count" id="countAll"></span></div>
+  <div class="tab" data-filter="SIer" id="tabSier">SIer<span class="tab-count" id="countSier"></span></div>
+  <div class="tab" data-filter="Web系" id="tabWeb">Web系<span class="tab-count" id="countWeb"></span></div>
+</div>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="企業名で検索...">
+  <select id="sortBy">
+    <option value="salary-desc">年収：高い順</option>
+    <option value="salary-asc">年収：低い順</option>
+    <option value="name-asc">企業名順</option>
+    <option value="employees-desc">従業員数：多い順</option>
+    <option value="deadline-asc">ES締切：近い順</option>
+  </select>
+</div>
+
+<div class="stats">
+  <span>表示: <span class="count" id="displayCount">0</span> 社</span>
+  <span>※ES締切は2027卒（2026年度）本選考の情報です。最新情報は各社公式サイトをご確認ください</span>
+</div>
+
+<div class="list-header">
+  <span>企業名</span>
+  <span>平均年収</span>
+  <span>ES締切</span>
+  <span>本社</span>
+  <span></span>
+</div>
+
+<div class="list-view" id="companyList"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<footer>
+  <p>本サイトの情報は四季報・有価証券報告書・各社採用サイト等の公開情報に基づく参考値です（2026年2月時点）。</p>
+  <p>ES締切・選考スケジュールは変更される場合があります。最新情報は必ず各企業の公式採用サイトでご確認ください。</p>
+  <p>&copy; 2026 IT就活ナビ</p>
+</footer>
+
+<script>
+const companies = [
+  // ==================== SIer ====================
+  {
+    name: "野村総合研究所（NRI）",
+    type: "SIer",
+    salary: 1271,
+    employees: 6782,
+    location: "東京都千代田区",
+    founded: 1965,
+    market: "東証プライム",
+    newGrads: 350,
+    startingSalary: "月給27.6万円",
+    benefits: ["独身寮", "住宅補助", "カフェテリアプラン", "資格取得支援", "語学研修"],
+    description: "国内最大級のシンクタンク・SIer。金融・流通向けの大規模システム開発に強み。コンサルティングからシステム運用まで一気通貫で手がける。高い利益率と安定した業績が特徴。",
+    strengths: "コンサル×IT、金融系に圧倒的強み、高利益率",
+    esDeadline: "2026/03/05",
+    esDeadlineLabel: "第1次：3月5日",
+    esNote: "総合職 第1次締切。第2次以降あり。マイページ登録必須",
+    selectionFlow: ["ES提出", "適性検査", "GD", "面接(複数回)", "内々定"],
+    positions: ["アプリケーションエンジニア", "テクニカルエンジニア", "経営コンサルタント", "セキュリティスペシャリスト"],
+    recruitUrl: "https://working.nri.co.jp/recruit/2027/"
+  },
+  {
+    name: "NTTデータグループ",
+    type: "SIer",
+    salary: 867,
+    employees: 12714,
+    location: "東京都江東区",
+    founded: 1988,
+    market: "東証プライム",
+    newGrads: 500,
+    startingSalary: "月給25.4万円",
+    benefits: ["社宅", "住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク"],
+    description: "国内SIer最大手。官公庁・金融・製造業などあらゆる業界の大規模システムを手がける。海外売上比率も高くグローバル展開を推進。NTTグループの中核IT企業。",
+    strengths: "国内最大規模、官公庁に強い、グローバル展開",
+    esDeadline: "2026/03/15",
+    esDeadlineLabel: "3月中旬（予定）",
+    esNote: "マイページ登録後に案内。例年3月中旬締切",
+    selectionFlow: ["ES提出", "適性検査", "GD", "面接(複数回)", "内々定"],
+    positions: ["SE", "コンサルタント", "営業", "R&D"],
+    recruitUrl: "https://nttdata-recruit.com/"
+  },
+  {
+    name: "日立製作所",
+    type: "SIer",
+    salary: 936,
+    employees: 28672,
+    location: "東京都千代田区",
+    founded: 1920,
+    market: "東証プライム",
+    newGrads: 730,
+    startingSalary: "月給25.5万円",
+    benefits: ["社宅", "独身寮", "カフェテリアプラン", "財形貯蓄", "テレワーク"],
+    description: "総合電機メーカーだがIT・デジタル事業が主力に。Lumadaプラットフォームを核にDXソリューションを提供。社会インフラとITの融合で独自ポジションを確立。",
+    strengths: "OT×IT融合、Lumada、社会インフラ強み",
+    esDeadline: "2026/03/15",
+    esDeadlineLabel: "3月中旬（予定）",
+    esNote: "ジョブ型採用。技術系・事務系で締切異なる場合あり",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["SE", "研究開発", "営業", "コンサルタント", "デザイナー"],
+    recruitUrl: "https://www.hitachi.co.jp/recruit/newgraduate/"
+  },
+  {
+    name: "富士通",
+    type: "SIer",
+    salary: 965,
+    employees: 35600,
+    location: "東京都港区",
+    founded: 1935,
+    market: "東証プライム",
+    newGrads: 450,
+    startingSalary: "月給25.3万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "財形貯蓄", "テレワーク", "資格取得支援"],
+    description: "国内2位のSIer。官公庁・自治体・金融向けに強い。近年はサービスソリューション企業への変革を推進。Uvanceブランドでクロスインダストリーソリューションを展開。",
+    strengths: "官公庁・自治体に強い、Uvance、グローバル展開",
+    esDeadline: "2026/08/21",
+    esDeadlineLabel: "毎月21日正午（ローリング）",
+    esNote: "月次締切制。毎月21日正午が締切、最終8/21",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["ビジネスプロデューサー", "ソリューションエンジニア", "研究開発"],
+    recruitUrl: "https://fujitsu.recruiting.jp.fujitsu.com/"
+  },
+  {
+    name: "NEC",
+    type: "SIer",
+    salary: 880,
+    employees: 22036,
+    location: "東京都港区",
+    founded: 1899,
+    market: "東証プライム",
+    newGrads: 400,
+    startingSalary: "月給25万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "財形貯蓄", "テレワーク", "社員持株会"],
+    description: "通信インフラとITサービスの両軸。顔認証技術は世界トップレベル。官公庁・通信キャリア向けのシステム開発で安定した収益基盤を持つ。DX事業を成長ドライバーに。",
+    strengths: "顔認証世界No.1、通信インフラ、官公庁",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "3月下旬（予定）",
+    esNote: "マイページ登録後にES・適性検査の案内あり",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["システムエンジニア", "営業", "研究開発", "スタッフ"],
+    recruitUrl: "https://jpn.nec.com/recruit/newgraduate/"
+  },
+  {
+    name: "大塚商会",
+    type: "SIer",
+    salary: 891,
+    employees: 8943,
+    location: "東京都千代田区",
+    founded: 1961,
+    market: "東証プライム",
+    newGrads: 350,
+    startingSalary: "月給24万円",
+    benefits: ["住宅補助", "財形貯蓄", "社員持株会", "資格取得支援"],
+    description: "中堅・中小企業向けIT販売・SIの最大手。たのめーるなどのサービスも展開。顧客数約120万社と圧倒的な営業基盤を持つ。堅実経営で安定した業績が魅力。",
+    strengths: "中小企業向けNo.1、顧客基盤120万社、堅実経営",
+    esDeadline: "2026/06/30",
+    esDeadlineLabel: "随時受付中",
+    esNote: "職種別採用。比較的長期間エントリー受付",
+    selectionFlow: ["エントリー", "説明会", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["営業", "SE", "CE", "スタッフ", "AIエンジニア"],
+    recruitUrl: "https://jinzai.otsuka-shokai.co.jp/shinsotsu/"
+  },
+  {
+    name: "伊藤忠テクノソリューションズ（CTC）",
+    type: "SIer",
+    salary: 1028,
+    employees: 4800,
+    location: "東京都港区",
+    founded: 1972,
+    market: "東証プライム",
+    newGrads: 200,
+    startingSalary: "月給27万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク", "語学研修"],
+    description: "伊藤忠グループのSIer。マルチベンダーでクラウド・ネットワーク分野に強い。科学技術計算やHPC分野でも高い実績。商社系ならではのグローバルネットワークを活用。",
+    strengths: "商社系SI、マルチベンダー、クラウドに強い",
+    esDeadline: "2026/03/15",
+    esDeadlineLabel: "3月中旬（予定）",
+    esNote: "2月より本選考案内開始。マイページで詳細確認",
+    selectionFlow: ["ES提出", "Webテスト", "面接(複数回)", "内々定"],
+    positions: ["ITエンジニア", "営業", "スタッフ"],
+    recruitUrl: "https://www.ctc-g.co.jp/recruit/newgrads/"
+  },
+  {
+    name: "SCSK",
+    type: "SIer",
+    salary: 764,
+    employees: 8470,
+    location: "東京都江東区",
+    founded: 1969,
+    market: "東証プライム",
+    newGrads: 350,
+    startingSalary: "月給25万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク", "残業月20h以下"],
+    description: "住友商事グループのSIer。働き方改革の先進企業として有名で、残業月平均20時間以下を実現。製造・流通・金融向けシステム開発からクラウドサービスまで幅広く展開。",
+    strengths: "働き方改革先進、残業少、住商グループ",
+    esDeadline: "2026/03/20",
+    esDeadlineLabel: "3月中旬〜下旬",
+    esNote: "マイページ登録後にES提出。例年3月中旬〜下旬",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["総合職（SE/営業/スタッフ）"],
+    recruitUrl: "https://www.scsk.jp/recruit/saiyo/"
+  },
+  {
+    name: "TIS",
+    type: "SIer",
+    salary: 760,
+    employees: 5765,
+    location: "東京都新宿区",
+    founded: 1971,
+    market: "東証プライム",
+    newGrads: 300,
+    startingSalary: "月給25万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク", "確定拠出年金"],
+    description: "独立系SIer大手。決済領域に強く、クレジットカードの基幹システムで国内トップシェア。東南アジアを中心に海外展開も積極的。TISインテックグループの中核企業。",
+    strengths: "決済領域トップ、独立系、ASEAN展開",
+    esDeadline: "2026/03/30",
+    esDeadlineLabel: "3月30日",
+    esNote: "ES提出締切 3月30日",
+    selectionFlow: ["ES提出", "Webテスト", "面接(複数回)", "内々定"],
+    positions: ["SE", "コンサルタント", "営業"],
+    recruitUrl: "https://www.tis.co.jp/recruit/"
+  },
+  {
+    name: "日鉄ソリューションズ（NSSOL）",
+    type: "SIer",
+    salary: 888,
+    employees: 3542,
+    location: "東京都港区",
+    founded: 1980,
+    market: "東証プライム",
+    newGrads: 150,
+    startingSalary: "月給27万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク", "確定拠出年金"],
+    description: "日本製鉄グループのSIer。鉄鋼業で培った大規模基幹システムの構築力に強み。製造業DXやクラウドマイグレーション案件が成長。absonne等の自社ソリューションも展開。",
+    strengths: "製造業DXに強い、基幹システム構築力、自社ソリューション",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "3月下旬（予定）",
+    esNote: "マイページ登録後に案内。4月よりインターン随時開催",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["SE", "ITコンサルタント", "営業"],
+    recruitUrl: "https://www.nssol.nipponsteel.com/recruiting/"
+  },
+  {
+    name: "オービック",
+    type: "SIer",
+    salary: 1030,
+    employees: 2100,
+    location: "東京都中央区",
+    founded: 1968,
+    market: "東証プライム",
+    newGrads: 100,
+    startingSalary: "月給28万円",
+    benefits: ["住宅補助", "社員持株会", "確定拠出年金", "資格取得支援"],
+    description: "自社開発のERPパッケージ「OBIC7」を中核とした独立系SIer。営業利益率60%超と驚異的な高収益体質。中堅企業向け基幹システムに特化し、直販モデルで高い利益率を実現。",
+    strengths: "営業利益率60%超、自社ERP、高収益体質",
+    esDeadline: "2026/06/30",
+    esDeadlineLabel: "ES不要（説明会参加型）",
+    esNote: "ESによる選考なし。説明会参加後に選考案内",
+    selectionFlow: ["説明会参加", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["システムコンサルタント", "システムエンジニア", "営業"],
+    recruitUrl: "https://www.obic.co.jp/recruit/newgraduate/"
+  },
+  {
+    name: "電通総研（旧ISID）",
+    type: "SIer",
+    salary: 1100,
+    employees: 3300,
+    location: "東京都港区",
+    founded: 1975,
+    market: "東証プライム",
+    newGrads: 100,
+    startingSalary: "月給28万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク", "語学研修"],
+    description: "電通グループのSIer。製造業・金融向けに強く、特にPLMやCAE分野で高いシェアを持つ。IT×マーケティングの融合に強み。近年はAI・データ分析領域も拡大。",
+    strengths: "電通グループ、製造業PLM、IT×マーケ",
+    esDeadline: "2026/03/15",
+    esDeadlineLabel: "3月中旬（予定）",
+    esNote: "マイページ登録後に本選考案内",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["ITコンサルタント", "エンジニア", "営業"],
+    recruitUrl: "https://www.dentsusoken.com/saiyo/"
+  },
+  {
+    name: "日本IBM",
+    type: "SIer",
+    salary: 950,
+    employees: 16000,
+    location: "東京都港区",
+    founded: 1937,
+    market: "非上場（IBM子会社）",
+    newGrads: 300,
+    startingSalary: "月給29万円",
+    benefits: ["確定拠出年金", "カフェテリアプラン", "テレワーク", "語学研修", "資格取得支援"],
+    description: "米IBM日本法人。コンサルティングからクラウド、AI（watsonx）まで幅広くカバー。外資ならではの成果主義と高い技術力が特徴。Red Hatとの連携によるハイブリッドクラウドが成長領域。",
+    strengths: "外資最大手、AI/クラウド、コンサルティング",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "第3回：要確認",
+    esNote: "第1回(10月)・第2回(1月)は終了。第3回の案内に注意",
+    selectionFlow: ["ES提出", "Webテスト", "面接(複数回)", "内々定"],
+    positions: ["デジタルビジネスコンサルタント", "ITスペシャリスト", "デザイナー"],
+    recruitUrl: "https://www.ibm.com/jp-ja/careers"
+  },
+  {
+    name: "アクセンチュア",
+    type: "SIer",
+    salary: 900,
+    employees: 21000,
+    location: "東京都港区",
+    founded: 1995,
+    market: "NYSE上場（米国）",
+    newGrads: 500,
+    startingSalary: "月給34万円",
+    benefits: ["確定拠出年金", "カフェテリアプラン", "語学研修", "テレワーク", "社内大学"],
+    description: "世界最大級のコンサルティング・IT企業。戦略コンサルからシステム開発・運用まで一気通貫。日本法人は2万人超の規模。テクノロジー×ビジネスの両面でキャリア構築が可能。",
+    strengths: "世界最大級、コンサル×IT、急成長中",
+    esDeadline: "2026/02/16",
+    esDeadlineLabel: "2月16日（締切済の可能性）",
+    esNote: "2027卒本選考 2/16締切。追加募集の可能性あり、要確認",
+    selectionFlow: ["ES提出", "Webテスト", "GD", "ケース面接", "最終面接", "内々定"],
+    positions: ["ビジネスコンサルタント", "テクノロジーコンサルタント", "デジタルコンサルタント", "ソリューションエンジニア"],
+    recruitUrl: "https://www.accenture.com/jp-ja/careers/life-at-accenture/entry-level"
+  },
+  {
+    name: "日本オラクル",
+    type: "SIer",
+    salary: 1121,
+    employees: 3200,
+    location: "東京都港区",
+    founded: 1985,
+    market: "東証スタンダード",
+    newGrads: 80,
+    startingSalary: "月給31万円",
+    benefits: ["カフェテリアプラン", "確定拠出年金", "テレワーク", "語学研修"],
+    description: "米Oracle日本法人。データベースで世界シェアNo.1。クラウドインフラ（OCI）への移行を推進中。エンタープライズ向けSaaS・PaaSも展開。高い技術力と安定した顧客基盤が魅力。",
+    strengths: "DB世界No.1、OCI/クラウド、高年収",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "マイページで確認",
+    esNote: "マイページ登録後に選考案内。通年で複数回募集あり",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["営業", "ソリューションエンジニア", "コンサルタント"],
+    recruitUrl: "https://www.oracle.com/jp/careers/"
+  },
+  {
+    name: "BIPROGY（旧日本ユニシス）",
+    type: "SIer",
+    salary: 830,
+    employees: 4600,
+    location: "東京都江東区",
+    founded: 1958,
+    market: "東証プライム",
+    newGrads: 130,
+    startingSalary: "月給25.5万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "テレワーク", "資格取得支援", "確定拠出年金"],
+    description: "独立系SIerで社名をBIPROGYに変更。金融・公共・流通向けのシステム開発に加え、社会課題解決型ビジネスを推進。デジタルコモンズ構想で新たな価値創造を目指す。",
+    strengths: "独立系、金融・流通に強い、社会課題解決",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "受付中（3月下旬目安）",
+    esNote: "2025年12月よりES受付開始。マイページで詳細確認",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["SE", "営業", "スタッフ"],
+    recruitUrl: "https://www.biprogy.com/recruit/"
+  },
+  {
+    name: "NRIセキュアテクノロジーズ",
+    type: "SIer",
+    salary: 850,
+    employees: 700,
+    location: "東京都千代田区",
+    founded: 2000,
+    market: "非上場（NRIグループ）",
+    newGrads: 40,
+    startingSalary: "月給27万円",
+    benefits: ["住宅補助", "カフェテリアプラン", "資格取得支援", "テレワーク"],
+    description: "NRIグループのセキュリティ専門企業。セキュリティコンサルティング・診断・SOC運用を一気通貫で提供。国内セキュリティ業界のリーダー的存在。専門性の高い人材が集結。",
+    strengths: "セキュリティ特化、NRIグループ、高専門性",
+    esDeadline: "2026/04/16",
+    esDeadlineLabel: "4月16日 12:00",
+    esNote: "NRI採用窓口から応募。セキュリティスペシャリスト職",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["セキュリティスペシャリスト"],
+    recruitUrl: "https://www.nri-secure.co.jp/recruit/"
+  },
+  // ==================== Web系 ====================
+  {
+    name: "リクルート",
+    type: "Web系",
+    salary: 1139,
+    employees: 2700,
+    location: "東京都千代田区",
+    founded: 1963,
+    market: "東証プライム",
+    newGrads: 200,
+    startingSalary: "月給30万円",
+    benefits: ["カフェテリアプラン", "リモートワーク", "自己啓発支援", "副業OK", "フレックス"],
+    description: "Indeed・Airシリーズなど多数のWebサービスを展開する国内最大級のHRテック企業。エンジニア文化が根付いており、技術ブログやOSS貢献も活発。起業家精神を重視する社風。",
+    strengths: "Indeed/Air、HRテック世界級、起業家輩出",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "マイページで確認",
+    esNote: "職種別採用。マイページ登録後に選考案内",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["ビジネス", "エンジニア", "デザイン", "データ"],
+    recruitUrl: "https://www.recruit.co.jp/employment/students/"
+  },
+  {
+    name: "ソフトバンク",
+    type: "Web系",
+    salary: 810,
+    employees: 18929,
+    location: "東京都港区",
+    founded: 1986,
+    market: "東証プライム",
+    newGrads: 400,
+    startingSalary: "月給26.6万円",
+    benefits: ["社宅", "住宅補助", "カフェテリアプラン", "テレワーク", "副業OK"],
+    description: "通信事業を軸にPayPay・LINEヤフーなどテック事業を多角展開。AI戦略に注力しておりGPUクラスタ大規模投資を実施。エンジニアの活躍フィールドが非常に広い。",
+    strengths: "通信×テック、PayPay/LINE、AI投資",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "JOB-MATCH他：要確認",
+    esNote: "総合コース・JOB-MATCHコース等複数あり。マイページで確認",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["総合職", "エンジニア", "営業", "企画"],
+    recruitUrl: "https://recruit.softbank.jp/graduate/"
+  },
+  {
+    name: "LINEヤフー",
+    type: "Web系",
+    salary: 830,
+    employees: 7800,
+    location: "東京都千代田区",
+    founded: 2023,
+    market: "東証プライム",
+    newGrads: 200,
+    startingSalary: "月給28万円",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "社内カフェ", "語学研修"],
+    description: "LINE・Yahoo! JAPAN・PayPayを運営する国内最大級のテックカンパニー。月間利用者数は国内トップクラス。多様なサービス基盤を持ち、大規模なデータ・AI活用が可能な環境。",
+    strengths: "国内最大級プラットフォーム、LINE/Yahoo、データ基盤",
+    esDeadline: "2026/02/17",
+    esDeadlineLabel: "第3クール：2月17日（締切済）",
+    esNote: "複数クール制。第3クール2/17締切。次クールの案内を要確認",
+    selectionFlow: ["ES提出", "コーディングテスト", "面接(複数回)", "内々定"],
+    positions: ["エンジニア", "ビジネスコンサルタント", "プロダクトプランナー", "デザイナー"],
+    recruitUrl: "https://www.lycorp.co.jp/ja/recruit/newgrads/"
+  },
+  {
+    name: "メルカリ",
+    type: "Web系",
+    salary: 968,
+    employees: 1800,
+    location: "東京都港区",
+    founded: 2013,
+    market: "東証プライム",
+    newGrads: 50,
+    startingSalary: "月給35万円〜",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "語学研修", "メルカリ社内利用支援"],
+    description: "フリマアプリ「メルカリ」を運営。米国市場にも展開。メルペイでフィンテック領域にも進出。Go Bold（大胆にやろう）のバリューを体現するエンジニアカルチャーが魅力。",
+    strengths: "Go Bold文化、フリマNo.1、フィンテック",
+    esDeadline: "2026/12/31",
+    esDeadlineLabel: "通年採用",
+    esNote: "通年でエントリー可能。ポジションオープン時に随時選考",
+    selectionFlow: ["エントリー", "書類選考", "コーディングテスト", "面接(複数回)", "内々定"],
+    positions: ["ソフトウェアエンジニア", "プロダクトマネージャー", "データアナリスト"],
+    recruitUrl: "https://careers.mercari.com/jp/students/"
+  },
+  {
+    name: "サイバーエージェント",
+    type: "Web系",
+    salary: 817,
+    employees: 7200,
+    location: "東京都渋谷区",
+    founded: 1998,
+    market: "東証プライム",
+    newGrads: 200,
+    startingSalary: "月給34万円",
+    benefits: ["住宅補助", "社内カフェ", "リモートワーク", "副業OK", "女性活躍支援"],
+    description: "ABEMA・ゲーム・ネット広告の3本柱。AI事業にも注力中。若手に大きな裁量を与える文化があり、20代でプロダクトマネージャーや子会社社長になるケースも。技術カンファレンスも活発。",
+    strengths: "ABEMA、若手裁量大、ネット広告",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "職種別：要確認",
+    esNote: "ビジネス・エンジニア・クリエイターで選考異なる。マイページ確認",
+    selectionFlow: ["ES提出", "適性検査", "GD", "面接(複数回)", "内々定"],
+    positions: ["ビジネス", "エンジニア", "クリエイター"],
+    recruitUrl: "https://www.cyberagent.co.jp/careers/students/"
+  },
+  {
+    name: "楽天グループ",
+    type: "Web系",
+    salary: 797,
+    employees: 8409,
+    location: "東京都世田谷区",
+    founded: 1997,
+    market: "東証プライム",
+    newGrads: 250,
+    startingSalary: "月給30万円",
+    benefits: ["社内食堂無料", "フレックス", "テレワーク", "語学研修", "楽天ポイント支給"],
+    description: "EC・フィンテック・モバイルの楽天エコシステムを展開。社内公用語は英語で、グローバルな環境。70以上のサービスを横断するデータ活用が強み。エンジニア職種も多岐にわたる。",
+    strengths: "楽天エコシステム、英語公用語、フィンテック",
+    esDeadline: "2026/04/30",
+    esDeadlineLabel: "エントリー受付中",
+    esNote: "2027年4月入社の本選考エントリー受付中",
+    selectionFlow: ["ES提出", "Webテスト", "面接(複数回)", "内々定"],
+    positions: ["ビジネス総合", "エンジニア", "コーポレート", "クリエイティブ"],
+    recruitUrl: "https://corp.rakuten.co.jp/careers/graduates/"
+  },
+  {
+    name: "DeNA",
+    type: "Web系",
+    salary: 850,
+    employees: 2800,
+    location: "東京都渋谷区",
+    founded: 1999,
+    market: "東証プライム",
+    newGrads: 50,
+    startingSalary: "月給33万円",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "社内勉強会", "健康支援"],
+    description: "ゲーム・スポーツ・ヘルスケア・オートモーティブなど多角展開のテック企業。AI/ML技術に注力し、研究開発組織も充実。技術力の高いエンジニアが多く在籍。",
+    strengths: "AI/ML注力、多角展開、技術力高い",
+    esDeadline: "2026/02/16",
+    esDeadlineLabel: "ビジネス職：2/16（締切済）",
+    esNote: "ビジネス職2/16締切済。エンジニア職は通年で募集あり",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["ビジネス", "エンジニア", "デザイナー", "AI/ML"],
+    recruitUrl: "https://dena.com/jp/recruit/students/"
+  },
+  {
+    name: "ZOZO",
+    type: "Web系",
+    salary: 751,
+    employees: 1500,
+    location: "千葉県千葉市",
+    founded: 1998,
+    market: "東証プライム",
+    newGrads: 30,
+    startingSalary: "月給30万円",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "6時間労働制", "幕張手当"],
+    description: "ZOZOTOWN運営。ファッションECで国内No.1シェア。ZOZOSUIT等の計測技術やAIを活用したパーソナライズが特徴。6時間労働制など独自の働き方を推進。高い利益率も魅力。",
+    strengths: "ファッションEC No.1、6時間労働、高利益率",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "部門別：要確認",
+    esNote: "部門別に締切が異なる。公式サイトで要確認",
+    selectionFlow: ["エントリー", "書類選考", "面接(複数回)", "内々定"],
+    positions: ["エンジニア", "ビジネス", "クリエイティブ"],
+    recruitUrl: "https://corp.zozo.com/recruit/newgraduate/"
+  },
+  {
+    name: "マネーフォワード",
+    type: "Web系",
+    salary: 770,
+    employees: 2100,
+    location: "東京都港区",
+    founded: 2012,
+    market: "東証プライム",
+    newGrads: 50,
+    startingSalary: "月給30万円〜",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "書籍購入支援", "自社サービス無料"],
+    description: "家計簿・会計ソフト・経費精算などバックオフィスSaaSを多数展開するフィンテック企業。SaaS×フィンテックの掛け算で急成長中。エンジニアファーストな文化が特徴。",
+    strengths: "SaaS×フィンテック、急成長、エンジニアファースト",
+    esDeadline: "2026/12/31",
+    esDeadlineLabel: "通年採用",
+    esNote: "通年で応募可能。カジュアル面談からスタートも可",
+    selectionFlow: ["エントリー", "カジュアル面談", "書類選考", "面接(複数回)", "内々定"],
+    positions: ["エンジニア", "ビジネス", "デザイナー"],
+    recruitUrl: "https://recruit.moneyforward.com/students"
+  },
+  {
+    name: "freee",
+    type: "Web系",
+    salary: 761,
+    employees: 1200,
+    location: "東京都品川区",
+    founded: 2012,
+    market: "東証グロース",
+    newGrads: 40,
+    startingSalary: "月給30万円〜",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "書籍購入支援", "社内バー"],
+    description: "クラウド会計ソフトのパイオニア。個人事業主から中堅企業向けまでバックオフィスの全自動化を目指す。「マジ価値」を掲げるカルチャーで、ユーザー志向の開発が根付く。",
+    strengths: "クラウド会計パイオニア、マジ価値文化、成長市場",
+    esDeadline: "2026/12/31",
+    esDeadlineLabel: "通年採用",
+    esNote: "通年で応募可能。新卒向け採用ページから直接エントリー",
+    selectionFlow: ["エントリー", "書類選考", "面接(複数回)", "内々定"],
+    positions: ["ソフトウェアエンジニア", "ビジネス"],
+    recruitUrl: "https://jobs.freee.co.jp/entry/newgrads/"
+  },
+  {
+    name: "GMOインターネットグループ",
+    type: "Web系",
+    salary: 760,
+    employees: 3700,
+    location: "東京都渋谷区",
+    founded: 1991,
+    market: "東証プライム",
+    newGrads: 100,
+    startingSalary: "月給27万円",
+    benefits: ["社内カフェ無料", "リモートワーク", "フレックス", "テックカンファレンス"],
+    description: "インターネットインフラからドメイン・ホスティング・暗号資産まで幅広く展開。国内ドメイン登録数No.1。エンジニア向けの技術支援制度が充実。",
+    strengths: "ドメインNo.1、インフラ事業、暗号資産",
+    esDeadline: "2026/02/28",
+    esDeadlineLabel: "2月28日（二次募集中）",
+    esNote: "ビジネス/エンジニア/クリエイティブ 二次募集受付中",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["エンジニア", "ビジネス", "クリエイティブ"],
+    recruitUrl: "https://recruit.gmo.jp/rookies/"
+  },
+  {
+    name: "エムスリー",
+    type: "Web系",
+    salary: 1050,
+    employees: 600,
+    location: "東京都港区",
+    founded: 2000,
+    market: "東証プライム",
+    newGrads: 20,
+    startingSalary: "月給33万円",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "自社サービス利用"],
+    description: "医療×ITプラットフォームm3.comを運営。国内医師の9割以上が登録。製薬企業向けマーケティング支援が主力。少数精鋭で高い生産性を誇る。ヘルステック領域のリーダー。",
+    strengths: "医師9割登録、ヘルステックNo.1、高生産性",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "要確認",
+    esNote: "少数精鋭採用。公式サイトで最新の募集状況を確認",
+    selectionFlow: ["ES提出", "Webテスト", "ケース面接", "最終面接", "内々定"],
+    positions: ["ビジネス", "エンジニア", "データサイエンティスト"],
+    recruitUrl: "https://corporate.m3.com/recruit/newgraduates"
+  },
+  {
+    name: "ラクスル",
+    type: "Web系",
+    salary: 780,
+    employees: 600,
+    location: "東京都品川区",
+    founded: 2009,
+    market: "東証プライム",
+    newGrads: 15,
+    startingSalary: "月給30万円",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "書籍購入支援"],
+    description: "印刷・物流・広告の産業プラットフォームを運営。「仕組みを変えれば世界はもっとよくなる」のビジョンのもと、レガシー産業のDXに挑戦。BtoBプラットフォームの成長企業。",
+    strengths: "産業DX、BtoBプラットフォーム、成長企業",
+    esDeadline: "2026/12/31",
+    esDeadlineLabel: "通年採用",
+    esNote: "通年でエントリー可能。少数精鋭の採用",
+    selectionFlow: ["エントリー", "書類選考", "面接(複数回)", "内々定"],
+    positions: ["ビジネス", "エンジニア"],
+    recruitUrl: "https://recruit.raksul.com/new-graduates/"
+  },
+  {
+    name: "Sansan",
+    type: "Web系",
+    salary: 750,
+    employees: 1500,
+    location: "東京都渋谷区",
+    founded: 2007,
+    market: "東証プライム",
+    newGrads: 40,
+    startingSalary: "月給28万円",
+    benefits: ["リモートワーク", "フレックス", "副業OK", "社内勉強会", "Know Me制度"],
+    description: "名刺管理サービス「Sansan」と請求書管理「Bill One」を展開するBtoB SaaS企業。営業DXプラットフォームとして成長中。独自のデータベース技術に強み。",
+    strengths: "名刺管理No.1、Bill One急成長、営業DX",
+    esDeadline: "2026/03/31",
+    esDeadlineLabel: "募集中",
+    esNote: "ビジネス職・エンジニア職で募集中。公式サイトで確認",
+    selectionFlow: ["ES提出", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["ビジネス", "ソフトウェアエンジニア", "研究開発"],
+    recruitUrl: "https://jp.corp-sansan.com/recruit/newgrads/"
+  },
+  {
+    name: "SHIFT",
+    type: "Web系",
+    salary: 710,
+    employees: 12000,
+    location: "東京都港区",
+    founded: 2005,
+    market: "東証プライム",
+    newGrads: 200,
+    startingSalary: "月給28万円",
+    benefits: ["リモートワーク", "資格取得支援", "社内カフェ", "技術勉強会"],
+    description: "ソフトウェアテスト・品質保証の専門企業。IT業界のテスト工程に特化し急成長。上流工程のコンサルから自動化まで幅広い。売上高CAGR30%超の高成長。未経験からの育成にも力を入れる。",
+    strengths: "テスト専門No.1、CAGR30%超、未経験歓迎",
+    esDeadline: "2026/12/31",
+    esDeadlineLabel: "通年採用",
+    esNote: "通年で採用中。随時選考。未経験者も歓迎",
+    selectionFlow: ["エントリー", "適性検査", "面接(複数回)", "内々定"],
+    positions: ["品質保証コンサルタント", "テストエンジニア", "開発エンジニア"],
+    recruitUrl: "https://recruit.shiftinc.jp/career/graduates/"
+  }
+];
+
+// State
+let currentFilter = 'all';
+const listEl = document.getElementById('companyList');
+const searchInput = document.getElementById('search');
+const sortSelect = document.getElementById('sortBy');
+const displayCount = document.getElementById('displayCount');
+const modalOverlay = document.getElementById('modalOverlay');
+const modal = document.getElementById('modal');
+
+document.getElementById('countAll').textContent = companies.length;
+document.getElementById('countSier').textContent = companies.filter(c => c.type === 'SIer').length;
+document.getElementById('countWeb').textContent = companies.filter(c => c.type === 'Web系').length;
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.className = 'tab');
+    const f = tab.dataset.filter;
+    currentFilter = f;
+    if (f === 'all') tab.classList.add('active-all');
+    else if (f === 'SIer') tab.classList.add('active-sier');
+    else tab.classList.add('active-web');
+    render();
+  });
+});
+
+function parseDeadline(d) {
+  return new Date(d).getTime();
+}
+
+function getDeadlineClass(d) {
+  const now = new Date('2026-02-16');
+  const dl = new Date(d);
+  const diff = (dl - now) / (1000*60*60*24);
+  if (diff < 0) return 'deadline-soon';
+  if (diff <= 30) return 'deadline-soon';
+  if (dl.getFullYear() === 2026 && dl.getMonth() === 11) return 'deadline-open';
+  return 'deadline-open';
+}
+
+function getFiltered() {
+  const query = searchInput.value.toLowerCase();
+  let list = companies.filter(c => {
+    const matchType = currentFilter === 'all' || c.type === currentFilter;
+    const matchSearch = !query || c.name.toLowerCase().includes(query);
+    return matchType && matchSearch;
+  });
+  const sort = sortSelect.value;
+  list.sort((a, b) => {
+    switch (sort) {
+      case 'salary-desc': return b.salary - a.salary;
+      case 'salary-asc': return a.salary - b.salary;
+      case 'name-asc': return a.name.localeCompare(b.name, 'ja');
+      case 'employees-desc': return b.employees - a.employees;
+      case 'deadline-asc': return parseDeadline(a.esDeadline) - parseDeadline(b.esDeadline);
+      default: return 0;
+    }
+  });
+  return list;
+}
+
+function renderRow(c, idx) {
+  const typeClass = c.type === 'SIer' ? 'sier' : 'web';
+  const dlClass = getDeadlineClass(c.esDeadline);
+  return `<div class="company-row" onclick="openModal(${idx})">
+    <div class="name-cell">
+      <span class="type-badge ${typeClass}">${c.type}</span>
+      ${c.name}
+    </div>
+    <div class="salary-cell">${c.salary.toLocaleString()}万円</div>
+    <div class="deadline-cell"><span class="${dlClass}">${c.esDeadlineLabel}</span></div>
+    <div class="detail-cell">${c.location}</div>
+    <div class="arrow-cell">&#8250;</div>
+  </div>`;
+}
+
+function render() {
+  const filtered = getFiltered();
+  displayCount.textContent = filtered.length;
+  if (filtered.length === 0) {
+    listEl.innerHTML = '<div class="no-results">該当する企業が見つかりません</div>';
+    return;
+  }
+  listEl.innerHTML = filtered.map(c => renderRow(c, companies.indexOf(c))).join('');
+}
+
+function openModal(idx) {
+  const c = companies[idx];
+  const typeClass = c.type === 'SIer' ? 'sier' : 'web';
+  const isOpen = c.esDeadlineLabel.includes('通年') || c.esDeadlineLabel.includes('随時') || c.esDeadlineLabel.includes('ES不要');
+  const deadlineBoxClass = isOpen ? 'es-open-box' : 'es-deadline-box';
+
+  modal.innerHTML = `
+    <div class="modal-header ${typeClass}">
+      <div>
+        <h2>${c.name}</h2>
+        <div class="modal-meta">
+          <span class="meta-tag">${c.type}</span>
+          <span class="meta-tag">${c.market}</span>
+          <span class="meta-tag">設立 ${c.founded}年</span>
+        </div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="salary-highlight">
+        <div class="amount">${c.salary.toLocaleString()}万円</div>
+        <div class="sub">平均年収</div>
+      </div>
+
+      <div class="${deadlineBoxClass}">
+        <div class="es-title">2027卒 ES締切 / 選考状況</div>
+        <div class="es-date">${c.esDeadlineLabel}</div>
+        <div class="es-note">${c.esNote}</div>
+      </div>
+
+      <div class="detail-section">
+        <h3>企業概要</h3>
+        <div class="detail-description">${c.description}</div>
+      </div>
+
+      <div class="detail-section">
+        <h3>強み・特徴</h3>
+        <div class="benefits-list">
+          ${c.strengths.split('、').map(s => `<span class="benefit-tag">${s}</span>`).join('')}
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>2027卒 採用情報</h3>
+        <div class="detail-grid">
+          <div class="detail-item"><span class="label">新卒採用数</span><span class="value">約${c.newGrads}名</span></div>
+          <div class="detail-item"><span class="label">初任給</span><span class="value">${c.startingSalary}</span></div>
+        </div>
+        <div style="margin-top:0.6rem;">
+          <div style="font-size:0.78rem;color:var(--text-light);margin-bottom:0.3rem;">募集職種</div>
+          <div class="benefits-list">
+            ${c.positions.map(p => `<span class="benefit-tag">${p}</span>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <div style="font-size:0.78rem;color:var(--text-light);margin-bottom:0.3rem;">選考フロー</div>
+          <div class="selection-flow">
+            ${c.selectionFlow.map((s, i) => i < c.selectionFlow.length - 1 ? `<span class="flow-step">${s}</span><span class="flow-arrow">→</span>` : `<span class="flow-step">${s}</span>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <a href="${c.recruitUrl}" target="_blank" rel="noopener" style="display:inline-block;background:var(--primary);color:white;padding:0.5rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;">公式採用サイトを見る →</a>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>基本情報</h3>
+        <div class="detail-grid">
+          <div class="detail-item"><span class="label">本社所在地</span><span class="value">${c.location}</span></div>
+          <div class="detail-item"><span class="label">従業員数</span><span class="value">${c.employees.toLocaleString()}名</span></div>
+          <div class="detail-item"><span class="label">設立年</span><span class="value">${c.founded}年</span></div>
+          <div class="detail-item"><span class="label">上場市場</span><span class="value">${c.market}</span></div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>福利厚生</h3>
+        <div class="benefits-list">
+          ${c.benefits.map(b => `<span class="benefit-tag">${b}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  modalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+searchInput.addEventListener('input', render);
+sortSelect.addEventListener('change', render);
+
+render();
+</script>
+</body>
+</html>
+
   --web-light: <!DOCTYPE html>
 <html lang="ja">
 <head>
