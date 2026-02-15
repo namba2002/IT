@@ -1,0 +1,59 @@
+name: Deploy branches to Pages subfolders
+
+on:
+  push:
+    branches:
+      - main
+      - "スマホ用"
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decide destination folder
+        id: dest
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "folder=prod" >> $GITHUB_OUTPUT
+          elif [ "${GITHUB_REF_NAME}" = "スマホ用" ]; then
+            echo "folder=mobile" >> $GITHUB_OUTPUT
+          else
+            echo "folder=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Prepare publish directory (static files)
+        run: |
+          mkdir -p publish
+          rsync -av --delete \
+            --exclude ".git" \
+            --exclude ".github" \
+            ./ publish/
+
+      - name: Push to gh-pages (subfolder)
+        run: |
+          DEST="${{ steps.dest.outputs.folder }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin gh-pages || true
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git checkout -B gh-pages origin/gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . || true
+          fi
+
+          mkdir -p "$DEST"
+          rsync -av --delete publish/ "$DEST/"
+
+          touch .nojekyll
+
+          git add -A
+          git commit -m "Deploy ${GITHUB_REF_NAME} to /${DEST}/" || echo "No changes"
+          git push origin gh-pages
